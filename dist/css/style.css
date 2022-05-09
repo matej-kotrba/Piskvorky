@@ -1,0 +1,362 @@
+@keyframes header-appear {
+  80% {
+    transform: translate(0, 0);
+  }
+  100% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}
+@keyframes rgbEffect {
+  to {
+    filter: hue-rotate(360deg);
+  }
+}
+@keyframes translateXAnim {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes translateXAnimOut {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+@keyframes scale {
+  to {
+    transform: scale(4);
+  }
+}
+@keyframes dissapear {
+  to {
+    transform: scaleY(0);
+    color: transparent;
+  }
+}
+body {
+  height: 100vh;
+}
+
+header {
+  background-color: rgb(25, 25, 25);
+  color: white;
+  height: max(40px, 10vh);
+  display: grid;
+  place-items: center;
+  font-family: "Lobster", cursive;
+}
+
+main {
+  background-color: rgb(35, 35, 35);
+  height: calc(100vh - 2 * max(40px, 10vh));
+  display: grid;
+  place-content: center;
+  position: relative;
+}
+
+footer {
+  background-color: rgb(25, 25, 25);
+  height: max(40px, 10vh);
+  display: grid;
+  place-items: center;
+  filter: drop-shadow(0 0 10px black);
+}
+
+@media (max-width: 450px) {
+  header h1 {
+    font-size: 2rem !important;
+  }
+}
+@media (max-width: 330px) {
+  #gameBoard {
+    width: 95vw !important;
+  }
+}
+@media (max-aspect-ratio: 1/1.8) {
+  #game {
+    flex-direction: column !important;
+  }
+  #game #gameMenu {
+    order: 0 !important;
+    height: var(--content-width);
+    width: 100% !important;
+  }
+}
+@media (max-height: 800px) {
+  header h1 {
+    font-size: 2rem !important;
+  }
+}
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+header h1 {
+  inline-size: fit-content;
+  margin-inline: auto;
+  text-transform: uppercase;
+  font-size: 4rem;
+  letter-spacing: 0.5rem;
+  opacity: 0;
+  transform: translateY(-100%);
+  animation: header-appear 2s forwards ease-out;
+}
+
+#returnButton {
+  display: none;
+  position: absolute;
+  top: min(2vw, 2vh);
+  left: min(2vw, 2vh);
+  color: white;
+  font-size: max(max(2vw, 2vh), 2rem);
+  cursor: pointer;
+  transition: 0.2s;
+}
+#returnButton:hover {
+  color: rgb(195, 195, 195);
+  transform: scale(1.2);
+}
+
+#menu {
+  height: 100%;
+  display: grid;
+  display: grid;
+  place-content: center;
+}
+#menu > ul {
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  font-family: "MuseoModerno", cursive;
+  text-align: center;
+  align-items: center;
+}
+#menu > ul > li {
+  width: fit-content;
+  list-style: none;
+  cursor: pointer;
+  color: transparent;
+  -webkit-text-stroke: rgba(255, 255, 255, 0.59) 1px;
+  text-transform: uppercase;
+  font-size: max(min(8vw, 8vh), 50px);
+  position: relative;
+  z-index: 1;
+  transition: filter 0.5s;
+}
+#menu > ul > li:hover {
+  filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.585));
+}
+#menu > ul > li::before {
+  content: attr(data-text);
+  width: 0%;
+  height: 100%;
+  position: absolute;
+  left: -10px;
+  top: -5px;
+  color: white;
+  text-shadow: 2px 1px 10px black;
+  overflow: hidden;
+  transition: 0.5s ease-in-out;
+}
+#menu > ul > li:hover::before {
+  width: 100%;
+}
+
+#list {
+  display: none;
+  width: min(100vw, 800px);
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+#list > h2 {
+  width: fit-content;
+  font-family: "MuseoModerno", cursive;
+  font-size: 2rem;
+  color: white;
+  text-transform: uppercase;
+}
+#list #gameList {
+  list-style: none;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: black;
+}
+#list #gameList > li {
+  cursor: pointer;
+  margin-inline: auto;
+  width: 90%;
+  background-color: white;
+  padding: 5px;
+  padding-block: 15px;
+  border-radius: 5px;
+  transition: 0.2s;
+}
+#list #gameList > li:hover {
+  background-color: rgb(231, 231, 231);
+  transform: translateY(-10%);
+}
+
+#game {
+  width: max-content;
+  display: flex;
+  flex-direction: row;
+  display: none;
+  position: relative;
+  overflow: hidden;
+}
+#game > #endScreen:not(#game.endScreen > #endScreen) {
+  display: none;
+}
+#game.waitingForOpponent::after {
+  content: "Waiting for opponent";
+  color: white;
+  font-family: "MuseoModerno", cursive;
+  font-size: clamp(5px, max(4vw, 4vh), 4rem);
+  text-align: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.468);
+  box-shadow: 0 0 100px 50px rgba(0, 0, 0, 0.468);
+  transform: scaleY(1);
+  transition: 1s ease-in-out;
+  transform-origin: center center;
+}
+#game.waitingForOpponent.dissapear::after {
+  animation: dissapear 1s ease-in-out forwards;
+}
+#game.endScreen > #endScreen {
+  background-color: rgba(0, 0, 0, 0.526);
+  color: white;
+  font-size: clamp(2rem, max(4vw, 4vh), 4rem);
+  line-height: 110%;
+  text-align: center;
+  font-family: "MuseoModerno", cursive;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  transform: translateX(-100%);
+  z-index: 10;
+}
+#game.endScreen > #endScreen.show {
+  animation: translateXAnim 2s ease-in-out forwards;
+}
+#game.endScreen > #endScreen.hidden {
+  animation: translateXAnimOut 1.5s ease-in-out forwards;
+}
+#game.endScreen > #endScreen > button {
+  position: relative;
+  cursor: pointer;
+  margin-top: 20%;
+  margin-bottom: 5%;
+  width: max(90px, 20%);
+  aspect-ratio: 2/1;
+  border-radius: 0;
+  background-color: rgb(248, 80, 47);
+  border: 3px orange solid;
+  color: white;
+  font-family: "MuseoModerno", cursive;
+  text-transform: uppercase;
+  transition: 0.7s ease-in-out;
+  overflow: hidden;
+  isolation: isolate;
+}
+#game.endScreen > #endScreen > button::before, #game.endScreen > #endScreen > button::after {
+  content: "";
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  left: 0%;
+  top: 0%;
+  background-color: grey;
+  background-clip: clip;
+  clip-path: polygon(0 0, 50% 0, 0 50%, 50% 100%, 0 100%, 0 50%);
+  transition: 0.7s ease-in-out;
+  transform-origin: right center;
+  z-index: -99;
+}
+#game.endScreen > #endScreen > button::after {
+  left: 50%;
+  clip-path: polygon(50% 0, 100% 0, 100% 50%, 100% 100%, 50% 100%, 100% 50%);
+  transform-origin: left center;
+}
+#game.endScreen > #endScreen > button:hover {
+  background-color: rgb(225, 195, 46);
+}
+#game.endScreen > #endScreen > button:hover::before, #game.endScreen > #endScreen > button:hover::after {
+  transform: scale(1.2);
+}
+#game.endScreen > #endScreen > #rematchCount {
+  position: relative;
+  font-size: clamp(5px, max(4vw, 4vh), 4rem);
+}
+#game #gameMenu {
+  --content-width: max(8%, 2rem);
+  order: 2;
+  display: flex;
+  flex-direction: row;
+  width: var(--content-width);
+}
+#game #gameMenu > #player {
+  width: 100%;
+  border: 2px solid white;
+  position: relative;
+}
+#game #gameMenu > #player.active {
+  background-color: rgba(255, 255, 91, 0.662);
+}
+#game #gameMenu > #player::before {
+  content: attr(data-text);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  font-size: 2rem;
+  color: white;
+  font-family: "MuseoModerno", cursive;
+}
+#game #gameBoard {
+  --border-color-board: rgb(212, 212, 212);
+  width: min(min(50rem, 80vw), 70vh);
+  aspect-ratio: 1/1;
+  margin-inline: auto;
+  border: var(--border-color-board) 2px solid;
+  display: grid;
+  grid-template-columns: repeat(15, 1fr);
+  grid-template-rows: repeat(15, 1fr);
+  overflow: auto;
+}
+#game #gameBoard > .tile {
+  width: 100%;
+  aspect-ratio: 1/1;
+  min-width: 2rem;
+  border: var(--border-color-board) solid 1px;
+  background-color: rgb(34, 34, 34);
+  cursor: pointer;
+  position: relative;
+  background-position: center;
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+#game #gameBoard > .tile:hover {
+  background-color: rgb(54, 54, 54);
+}
+
+footer > p {
+  color: white;
+  animation: rgbEffect 4s linear infinite;
+}

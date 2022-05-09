@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Lobster&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=MuseoModerno&display=swap"
+            rel="stylesheet"
+        />
+        <link rel="stylesheet" href="./css/style.css" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css"
+            integrity="sha512-5A8nwdMOWrSz20fDsjczgUidUBR8liPYU+WymTZP1lmY9G6Oc7HlZv156XqnsgNUzTyMefFTcsFH/tnJE/+xBg=="
+            crossorigin="anonymous"
+        />
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="./js/main.js" defer></script>
+        <title>Piškvorky</title>
+    </head>
+    <body>
+        <header>
+            <h1>Piškvorky</h1>
+        </header>
+        <main>
+            <div id="returnButton">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            </div>
+            <div id="menu">
+                <ul>
+                    <li data-text="host">Host</li>
+                    <li data-text="join">Join</li>
+                </ul>
+            </div>
+            <div id="list">
+                <h2>Games list:</h2>
+                <ul id="gameList"></ul>
+            </div>
+            <div id="game" class="">
+                <div id="endScreen" class="show">
+                    <p id="victorySymbol"></p>
+                    <button id="rematchButton" type="button">Rematch</button>
+                    <p id="rematchCount">0/2</p>
+                </div>
+                <div id="gameMenu">
+                    <div id="player" class="" data-text="x"></div>
+                </div>
+                <div id="gameBoard"></div>
+            </div>
+        </main>
+        <footer>
+            <p>Author: Matěj Kotrba</p>
+        </footer>
+    </body>
+</html>
